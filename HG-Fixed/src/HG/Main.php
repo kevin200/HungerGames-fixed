@@ -174,13 +174,13 @@ class Main extends PluginBase implements Listener
 				$sender->setLevel($this->signlevel);
 				$sender->teleport($this->signlevel->getSpawnLocation());
 				$sender->sendMessage(TextFormat::GREEN."[{$this->getConfig()->get("prefix")}]Teleporting to lobby...");
-				$this->sendToAll(TextFormat::RED."[{$this->getConfig()->get("prefix")}]Player ".$sender->getName()." left the match.");
+			//	$this->sendToAll(TextFormat::RED."[{$this->getConfig()->get("prefix")}]Player ".$sender->getName()." left the match.");   <-- change SendtoAll to sendTip
 				$this->changeStatusSign();
 				if($this->gameStatus==1 && count($this->players)<2)
 				{
 					$this->gameStatus=0;
 					$this->lastTime=0;
-					$this->sendToAll("[{$this->getConfig()->get("prefix")}]There aren't enough players. Countdown was stopped.");
+				//	$this->sendToAll("[{$this->getConfig()->get("prefix")}]There aren't enough players. Countdown was stopped.");  <-- same!
 					/*foreach($this->players as $pl)
 					{
 						$p=$this->getServer()->getPlayer($pl["id"]);
@@ -264,7 +264,7 @@ class Main extends PluginBase implements Listener
 			$sender->sendMessage(TextFormat::GREEN . "[HG]Game settings successfully removed.");
 			break;
 		case "start":
-			$this->sendToAll(TextFormat::BLUE. "[HG]Match has been started forcefully.");
+		//	$this->sendToAll(TextFormat::BLUE. "[HG]Match has been started forcefully.");  <-- same
 			$this->gameStatus=1;
 			$this->lastTime=5;
 			break;
@@ -482,8 +482,8 @@ public function onJoin ($player) {
 				if(count($this->players)>1)
 				{
 					$this->sendTip("[{$this->getConfig()->get("prefix")}]{$event->getEntity()->getName()} died.");
-				$this->sendToAll("[{$this->getConfig()->get("prefix")}]Players left: ".count($this->players));
-					$this->sendToAll("[{$this->getConfig()->get("prefix")}]Time remaining: ".$this->lastTime." seconds.");
+			//	$this->sendToAll("[{$this->getConfig()->get("prefix")}]Players left: ".count($this->players));//change sendtoall to sendtip
+				//	$this->sendToAll("[{$this->getConfig()->get("prefix")}]Time remaining: ".$this->lastTime." seconds.");//change sendtoall to sendtip
 				}
 				$this->changeStatusSign();
 			}
@@ -602,7 +602,7 @@ public function onJoin ($player) {
 				foreach($this->players as &$pl)
 				{
 					$p=$this->getServer()->getPlayer($pl["id"]);
-					Server::getInstance()->sendToAll(TextFormat::GREEN."[{$this->getConfig()->get("prefix")}]" .$p->getName(). " won a match");
+				// 	Server::getInstance()->sendToAll(TextFormat::GREEN."[{$this->getConfig()->get("prefix")}]" .$p->getName(). " won a match");  what is that? change it to $this->getServer()->broadcastMessage("");
 					$p->setLevel($this->signlevel);
 					$p->getInventory()->clearAll();
 					$p->setMaxHealth(25);
@@ -1159,18 +1159,18 @@ public function onJoin ($player) {
 							$event->getPlayer()->sendMessage("[{$this->getConfig()->get("prefix")}]The match is full.");
 							return;
 						}
-						$this->sendToAll("[{$this->getConfig()->get("prefix")}]" .$event->getPlayer()->getName(). " joined the match.");
+					//	$this->sendToAll("[{$this->getConfig()->get("prefix")}]" .$event->getPlayer()->getName(). " joined the match."); //same
 						$this->players[$event->getPlayer()->getName()]=array("id"=>$event->getPlayer()->getName());
 						$event->getPlayer()->sendMessage(TextFormat::BLUE. "[{$this->getConfig()->get("prefix")}]You have joined the match!");
 						if($this->gameStatus==0 && count($this->players)>=2)
 						{
 							$this->gameStatus=1;
 							$this->lastTime=$this->waitTime;
-							$this->sendToAll(TextFormat::YELLOW. "[{$this->getConfig()->get("prefix")}]The game will countdown when a low amount of players are in");
+						//	$this->sendToAll(TextFormat::YELLOW. "[{$this->getConfig()->get("prefix")}]The game will countdown when a low amount of players are in");  //same
 						}
 						if(count($this->players)==8 && $this->gameStatus==1 && $this->lastTime>5)
 						{
-							$this->sendToAll(TextFormat::GREEN. "[{$this->getConfig()->get("prefix")}]The match is already full. Starting the match.");
+						//	$this->sendToAll(TextFormat::GREEN. "[{$this->getConfig()->get("prefix")}]The match is already full. Starting the match.");  //same
 							$this->lastTime=5;
 						}
 						$this->changeStatusSign();
@@ -1224,13 +1224,13 @@ public function onJoin ($player) {
 		{	
 			unset($this->players[$event->getPlayer()->getName()]);
 			$this->ClearInv($event->getPlayer());
-			$this->sendToAll(TextFormat::RED. "[{$this->getConfig()->get("prefix")}]".$event->getPlayer()->getName()." left the match.");
+		//	$this->sendToAll(TextFormat::RED. "[{$this->getConfig()->get("prefix")}]".$event->getPlayer()->getName()." left the match.");  same
 			$this->changeStatusSign();
 			if($this->gameStatus==1 && count($this->players)<2)
 			{
 				$this->gameStatus=0;
 				$this->lastTime=0;
-				$this->sendToAll(TextFormat::RED. "[{$this->getConfig()->get("prefix")}]There aren't enough players. Countdown has stopped.");
+			//	$this->sendToAll(TextFormat::RED. "[{$this->getConfig()->get("prefix")}]There aren't enough players. Countdown has stopped.");  //change sendtoall to sendtip
 				/*foreach($this->players as $pl)
 				{
 					$p=$this->getServer()->getPlayer($pl["id"]);
